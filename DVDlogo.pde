@@ -1,8 +1,13 @@
 class DVDlogo {
   PVector pos;
   PVector vel;
-  String logoText = "DVD";
-  float logoSize = 50;
+  
+  // --- THE WORD LIST ---
+  // Add or remove as many words as you want right here!
+  String[] wordList = {"OBEY", "DOGE", "MOG", "MADS", "SIGMA", "AURA", "DVD"};
+  String currentWord;
+  
+  float logoSize = 75;
   float w, h;
   color currentTint;
   
@@ -14,9 +19,8 @@ class DVDlogo {
     pos = new PVector(width / 2, height / 2);
     vel = PVector.random2D();
     
-    textSize(logoSize);
-    w = textWidth(logoText);
-    h = textAscent();
+    // Pick the first word and calculate its specific dimensions
+    changeWord();
     
     // Initialize the history array with the starting position
     history = new PVector[trailLength];
@@ -49,12 +53,21 @@ class DVDlogo {
     if (pos.x <= 0 || pos.x + w >= width) {
       vel.x *= -1;
       hitX = true;
-      changeColor();
     }
     if (pos.y - h <= 0 || pos.y >= height) {
       vel.y *= -1;
       hitY = true;
+    }
+
+    if (hitX || hitY) {
       changeColor();
+      changeWord(); // Pick a new word!
+      
+      // CRITICAL MATH FIX: 
+      // If the new word is longer than the old word, it might instantly overlap the wall.
+      // This constraint pushes it back safely inside the screen bounds so it doesn't get stuck!
+      pos.x = constrain(pos.x, 0, width - w);
+      pos.y = constrain(pos.y, h, height);
     }
 
     if (hitX && (pos.y - h <= margin || pos.y >= height - margin)) {
@@ -67,26 +80,35 @@ class DVDlogo {
   void display() {
     textAlign(LEFT, TOP);
 
-    // Draw the fading echo trail backwards (so the tail renders underneath)
+    // Draw the fading echo trail backwards
     for (int i = trailLength - 1; i >= 0; i--) {
-      // Map the alpha to fade from 60 (near the logo) down to 0 (the tail)
       float alpha = map(i, 0, trailLength, 60, 0); 
       
-      // The fill command accepts (Color, Alpha) automatically!
       fill(currentTint, alpha);
       textSize(logoSize);
-      text(logoText, history[i].x, history[i].y - h);
+      text(currentWord, history[i].x, history[i].y - h);
     }
 
-    // Draw the crisp, solid main logo on top
+    // Draw the crisp, solid main word on top
     fill(currentTint, 100);
     textSize(logoSize);
-    text(logoText, pos.x, pos.y - h);
+    text(currentWord, pos.x, pos.y - h);
   }
 
   void changeColor() {
     // HSB color mode: Random Hue, High Saturation, High Brightness
     currentTint = color(random(360), random(70, 100), random(80, 100));
+  }
+  
+  void changeWord() {
+    // Pick a random word from the array
+    int randomIndex = floor(random(wordList.length));
+    currentWord = wordList[randomIndex];
+    
+    // Recalculate width/height because every word is a different size!
+    textSize(logoSize);
+    w = textWidth(currentWord);
+    h = textAscent();
   }
 
   void updateSpeed(float newSpeed) {

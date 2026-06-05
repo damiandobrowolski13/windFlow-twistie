@@ -106,8 +106,8 @@ void draw() {
     feelsDir = 0.0;  // Dead accurate, no shift
   }
   
-  noiseIncr = map(gustRatio, 1, 2, 0.01, 0.05);     // Spatial noise (Lower = smoother, Higher = more curls)
-  timeIncrMult = map(windSpeed, 0, 25, 0, 1.5);   // Overall animation speed
+  noiseIncr = map(gustRatio, 1, 2, 0.01, 0.06);     // Spatial noise (Lower = smoother, Higher = more curls)
+  timeIncrMult = map(windSpeed, 0, 20, 0, 1.0);   // Overall animation speed
   hueVariance = constrain(map(feelsDiff, 0, 20, 0, 50), 0, 50);
   hueSwayMult = constrain(map(feelsDiff, 0, 20, 0, 50), 0, 50);
   
@@ -121,7 +121,7 @@ void draw() {
   }
   
   // print framerate
-  print("franerate: " + frameRate + "\n");
+  print("\n franerate: " + frameRate + "\n");
   // print dynamic vars
   print("gustRatio: " + gustRatio + "\n noiseIncr: " + noiseIncr + "\n timeIncrMult: " + timeIncrMult + "\n hueVariance: " + hueVariance + "\n hueSwayMult: " + hueSwayMult + "\n");
   
