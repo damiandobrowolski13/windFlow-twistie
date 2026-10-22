@@ -1,6 +1,6 @@
 # WindFlow Twistie: Temperature-Bound Generative Canvas
 # by Damian Vincent Dobrowolski [DVD]
-An optimized, high-FPS generative data visualization designed for continuous exhibition on a Raspberry Pi 5. The installation dynamically fetches real-time meteorological conditions and translates atmospheric micro-changes into an evolving fluid simulation.
+WindFlow-Twistie is a high-performance generative installation engineered for continuous 30 FPS exhibition on a dedicated Raspberry Pi 5 using Processing’s P2D hardware-accelerated rendering pipeline. Replacing discrete particles with a continuous, organic vector field that mimics swaying grass, the simulation maps real-time atmospheric telemetry directly to visual mechanics: Perlin noise turbulence is dynamically computed from live gust-to-sustained wind ratios, while temperature-polarized HSB gradients ripple across the matrix in direct response to sensory wind chill and heat index deviations.
 
 ## Overview
 The piece anchors a live fluid vector field to local weather metrics. Instead of arbitrary aesthetic values, every visual asset—from flow turbulence to color palette ranges—is mathematically bound to the tension between actual physical conditions and human sensory perception.
